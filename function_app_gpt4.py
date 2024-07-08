@@ -15,21 +15,15 @@ from pdfminer.high_level import extract_text_to_fp
 from pdfminer.layout import LAParams  
 from io import BytesIO  
 import xml.etree.ElementTree as ET  
-from azure.storage.blob import BlobServiceClient, BlobClient  
 from pdfminer.high_level import extract_text  
-from azure.storage.blob import BlobServiceClient,ContainerClient, BlobClient
 import datetime
-from azure.storage.blob import BlobServiceClient
 
 app = func.FunctionApp()
 
-
-storage_account_key = "Ch0G5DBVdN8dVDJDsqMarKP8zmseACNCe6WIWcXeP2SYEExCY1rGKi4HU7FMJJ90GSePSrNdrser+ASt6JG2hA=="
-storage_account_name = "aalex"
-connection_string = "BlobEndpoint=https://aalex.blob.core.windows.net/;QueueEndpoint=https://aalex.queue.core.windows.net/;FileEndpoint=https://aalex.file.core.windows.net/;TableEndpoint=https://aalex.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2028-03-16T03:25:46Z&st=2024-03-15T19:25:46Z&spr=https,http&sig=1rmT%2FW9FBV1J4os1pfAVcmKuyiRtrLN6QAvd9ervY58%3D"
-container_name = "eurogroup"
-
-
+storage_account_key = ""
+storage_account_name = ""
+connection_string = ""
+container_name = ""
 
 def download_blob(blob_client, destination_file):
     print("[{}]:[INFO] : Downloading {} ...".format(datetime.datetime.utcnow(),destination_file))
@@ -38,18 +32,12 @@ def download_blob(blob_client, destination_file):
         blob_data.readinto(my_blob)
     print("[{}]:[INFO] : download finished".format(datetime.datetime.utcnow()))  
 
-
 # Assuming your Azure connection string environment variable set.
 # If not, create BlobServiceClient using trl & credentials.
 #Example: https://learn.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient 
-
-connection_string = connection_string
-
 blob_service_client = BlobServiceClient.from_connection_string(conn_str=connection_string) 
 # create container client
-container_name = 'eurogroup'
 container_client = blob_service_client.get_container_client(container_name)
-
 #Check if there is a top level local folder exist for container.
 #If not, create one
 data_dir ='.'
